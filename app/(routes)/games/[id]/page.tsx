@@ -56,7 +56,7 @@ export default function GameDetailsPage() {
           </div>
         </div>
       </div> */}
-      <DetailedGameSwiper screens={screens} game={game} />
+      <DetailedGameSwiper screens={screens} />
 
       {/* SCREENSHOTS */}
       <div className="flex gap-4 overflow-x-hidden pb-2">
