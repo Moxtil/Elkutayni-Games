@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "app/components/Trending.jsx", "app/components/PopularWeek.jsx", "app/components/GameCard.jsx"  ],
   "exclude": ["node_modules"]
 }
