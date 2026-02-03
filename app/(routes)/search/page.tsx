@@ -2,7 +2,7 @@
 import  { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import GameCard from "@/app/components/GameCard";
-
+import {SearchSync} from "../../context/SearchSync";
 interface Game {
   id: number;
   name: string;
@@ -13,19 +13,20 @@ interface Game {
 }
 
 export default function SearchPage() {
-  const searchParams = useSearchParams();
-  const query = searchParams.get("q") || "";
+  // const searchParams = useSearchParams();
+  // const query = searchParams.get("q") || "";
+  const [search , setSearch] = useState<string | null>(null);
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    if (!query) return;
+    if (!search) return;
 
     const fetchGames = async () => {
       setLoading(true);
       try {
         const res = await fetch(
-          `https://api.rawg.io/api/games?key=f8843485cf0441ee8ce9ada8bf1f3610&search=${query}`
+          `https://api.rawg.io/api/games?key=f8843485cf0441ee8ce9ada8bf1f3610&search=${search}`
         );
         const data = await res.json();
         setGames(data.results || []);
@@ -37,16 +38,16 @@ export default function SearchPage() {
     };
 
     fetchGames();
-  }, [query]);
+  }, [search]);
 
   return (
     <div className="pt-24  md:pt-6 min-h-screen bg-gradient-to-b from-[#0b1120] to-[#1a1f3a] text-white px-6 py-10">
-      <h1 className="text-3xl font-bold mb-6">Search Results for: <span className="text-blue-400">{query}</span></h1>
-
+      <SearchSync setSearch={setSearch} />
+      <h1 className="text-3xl font-bold mb-6">Search Results for: <span className="text-blue-400">{search}</span></h1>      
       {loading ? (
         <p className="flex justify-center items-center h-64"><span className="loader"></span></p>
       ) : games.length === 0 ? (
-        <p className="text-gray-400">No games found for "{query}".</p>
+        <p className="text-gray-400">No games found for "{search}".</p>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {games.map((game) => (
