@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Navbar from "../components/Navbar";
-
+import Footer from "../components/Footer";
 export const metadata: Metadata = {
   title: "GameHub",
   description: "Gaming Platform",
@@ -31,7 +31,8 @@ export default function RootLayout({
         <main className="flex-1 w-full pt-36 md:pt-6 px-4 sm:px-6 lg:px-8 overflow-x-hidden">
           {children}
         </main>
-
+        
+      <Footer />
       </div>
     </div>
   );
