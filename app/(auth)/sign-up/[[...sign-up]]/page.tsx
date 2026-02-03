@@ -30,7 +30,7 @@ export default function Page() {
       />
 
       <section className="relative z-10 backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl rounded-2xl p-6 md:p-10">
-        <SignUp forceRedirectUrl="/feed" signInForceRedirectUrl="/sign-in" />
+        <SignUp forceRedirectUrl="/feed" signInUrl="/sign-in" />
       </section>
     </main>
   );
