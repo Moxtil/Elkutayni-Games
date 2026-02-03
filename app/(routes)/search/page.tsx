@@ -1,7 +1,7 @@
 "use client";
 export const dynamic = "force-dynamic";
 
-import  { useEffect, useState } from "react";
+import  { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import GameCard from "@/app/components/GameCard";
 import {SearchSync} from "../../context/SearchSync";
@@ -44,7 +44,9 @@ export default function SearchPage() {
 
   return (
     <div className="pt-24  md:pt-6 min-h-screen bg-gradient-to-b from-[#0b1120] to-[#1a1f3a] text-white px-6 py-10">
+      <Suspense fallback={<div>Loading search... <span className="loader"></span></div>}>
       <SearchSync setSearch={setSearch} />
+      </Suspense>
       <h1 className="text-3xl font-bold mb-6">Search Results for: <span className="text-blue-400">{search}</span></h1>      
       {loading ? (
         <p className="flex justify-center items-center h-64"><span className="loader"></span></p>
