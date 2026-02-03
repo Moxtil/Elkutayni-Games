@@ -1,14 +1,11 @@
-export const dynamic = "force-dynamic";
-
 import Image from "next/image";
 import { FaFire, FaStar } from "react-icons/fa";
 import placeholderImage from "../../../assets/44.jpg";
 import Link from "next/link";
-const API_KEY = process.env.RAWG_KEY;
 
 async function getGamesByGenre(genre: string) {
   const res = await fetch(
-    `https://api.rawg.io/api/games?key=${API_KEY}&genres=${genre}&page_size=20`,
+    `https://api.rawg.io/api/games?key=f8843485cf0441ee8ce9ada8bf1f3610&genres=${genre}&page_size=20`,
     { cache: "no-store" }  
   );
 

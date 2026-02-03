@@ -12,9 +12,13 @@ interface Game {
   website?: string;
 }
 
-export default function SearchPage() {
-  const searchParams = useSearchParams();
-  const query = searchParams.get("q") || "";
+export default function SearchPage({
+  searchParams,
+}: {
+  searchParams: { q?: string };
+}) {
+  const query = searchParams?.q || "";
+  
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
