@@ -142,7 +142,7 @@ export default function HomeSwiper() {
             src={slide.image}
             alt={slide.title}
             fill
-            className="md:translate-y-20 object-contain drop-shadow-[0_0_50px_rgba(56,189,248,0.45)] transition duration-500 hover:scale-[1.04]"
+            className="md:translate-y-20 object-contain md:drop-shadow-[0_0_50px_rgba(56,189,248,0.45)] transition duration-500 hover:scale-[1.04]"
             priority={i === 0}
             sizes="(max-width: 768px) 80vw, 480px"
           />
