@@ -30,6 +30,7 @@ type Store = {
 };
 
 type Game = {
+  id : number;
   name: string;
   background_image: string;
   rating: number;
@@ -71,31 +72,64 @@ export default function GameDetailsPage() {
   const [game, setGame] = useState<Game | null>(null);
   const [screens, setScreens] = useState<string[]>([]);
 const [reviews, setReviews] = useState<any[]>([]);
+const [similarGames, setSimilarGames] = useState<any[]>([]);
 
 
 
-  useEffect(() => {
-    const fetchGame = async () => {
-      const g: Game = await fetch(
+useEffect(() => {
+  if (!id) return;
+
+  const fetchGame = async () => {
+    try {
+      /* MAIN GAME */
+      const gRes = await fetch(
         `https://api.rawg.io/api/games/${id}?key=f8843485cf0441ee8ce9ada8bf1f3610`
-      ).then(r => r.json());
+      );
+      const g: Game = await gRes.json();
 
+      setGame(g);
+
+      /* SCREENSHOTS */
       const s = await fetch(
         `https://api.rawg.io/api/games/${id}/screenshots?key=f8843485cf0441ee8ce9ada8bf1f3610`
       ).then(r => r.json());
 
-const r = await fetch(
-  `https://api.rawg.io/api/games/${id}/reviews?key=f8843485cf0441ee8ce9ada8bf1f3610&page_size=5`
-).then(res => res.json());
+      setScreens(s?.results?.map((x: any) => x.image) || []);
 
+      /* REVIEWS */
+      const rRes = await fetch(
+        `https://api.rawg.io/api/games/${id}/reviews?key=f8843485cf0441ee8ce9ada8bf1f3610&page_size=8`
+      );
 
-setGame(g);
-setScreens(s.results.map((x: any) => x.image));
-setReviews(r.results);
-    };
+      const rText = await rRes.text();
+      const rData = rText ? JSON.parse(rText) : null;
+      setReviews(rData?.results || []);
 
-    fetchGame();
-  }, [id]);
+      /* s SIMILAR GAMES s */
+
+      const genreNames = g.genres.map(gen => gen.name).join(",");
+      const searchWord = g.name.split(" ")[0];
+
+      const simRes = await fetch(
+        `https://api.rawg.io/api/games/${id}/game-series?key=f8843485cf0441ee8ce9ada8bf1f3610&page_size=20`
+      );
+
+      const simData = await simRes.json();
+
+      const filtered = (simData?.results || [])
+        .filter((x: any) => x.id !== g.id)
+        .slice(0, 8);
+
+      setSimilarGames(filtered);
+
+    } catch (err) {
+      console.error("Fetch error:", err);
+    }
+  };
+
+  fetchGame();
+}, [id]);
+
 
   if (!game)
     return <div className="h-screen flex items-center justify-center text-white"><span className="loader"></span></div>;
@@ -219,7 +253,7 @@ setReviews(r.results);
 
 
       {/* REVIEWS */}
-<Section title="Player Reviews">
+      {reviews.length > 0 && <Section title="Player Reviews">
   <div className="space-y-6">
     {reviews.map((review, i) => (
       <div key={i} className="bg-[#0b1120] p-5 rounded-xl border border-blue-900/40 space-y-3">
@@ -236,7 +270,59 @@ setReviews(r.results);
       </div>
     ))}
   </div>
-</Section>
+</Section> }
+
+{/* SIMILAR GAMES */}
+{similarGames.length > 0 && <Section title={`More Like ${game?.name}`}>
+  <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {similarGames.map(game => (
+      <Link
+        key={game.id}
+        href={`/games/${game.id}`}
+        className="group bg-[#0b1120] rounded-2xl overflow-hidden border border-blue-900/40 hover:border-blue-500 transition"
+      >
+        <div className="relative h-40">
+          <Image
+            src={game.background_image}
+            alt={game.name}
+            fill
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent" />
+        </div>
+
+        <div className="p-4 space-y-2">
+          <h3 className="font-bold text-white line-clamp-1">
+            {game.name}
+          </h3>
+
+          <div className="flex items-center gap-3 text-xs text-blue-300">
+            <div className="flex items-center gap-1">
+              <RatingStars rating={game.rating || 0} />
+            </div>
+            {game.released && (
+              <span className="flex items-center gap-1">
+                <FaCalendarAlt />
+                {moment(game.released).format("YYYY")}
+              </span>
+            )}
+          </div>
+
+          <div className="flex flex-wrap gap-1 mt-2">
+            {game.genres?.slice(0, 2).map((g: any, i: number) => (
+              <span
+                key={i}
+                className="text-[11px] px-2 py-0.5 rounded bg-blue-900/40 text-blue-300"
+              >
+                {g.name}
+              </span>
+            ))}
+          </div>
+        </div>
+      </Link>
+    ))}
+  </div>
+</Section>}
 
     </div>
 

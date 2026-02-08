@@ -15,11 +15,19 @@ import img3 from "../assets/cyberpunk.png";
 import img4 from "../assets/gta.png";
 import img5 from "../assets/cod.png";
 import img6 from "../assets/fortnite.png";
+import imgMob1 from '../assets/mobile_assets/the_witcher.jpg'
+import imgMob2 from '../assets/mobile_assets/elden_ring.jpg'
+import imgMob3 from '../assets/mobile_assets/cyber.jpg'
+import imgMob4 from '../assets/mobile_assets/gtav.jpg'
+import imgMob5 from '../assets/mobile_assets/cod.jpg'
+import imgMob6 from '../assets/mobile_assets/fortnite.jpg'
+
 
 export default function HomeSwiper() {
   const slides = [
     {
       image: img1,
+      mobileImg : imgMob1,
       badge: "RPG LEGEND",
       title: "The Witcher 3",
       highlight: "Wild Hunt",
@@ -30,6 +38,7 @@ export default function HomeSwiper() {
     },
     {
       image: img2,
+      mobileImg : imgMob2,
       badge: "GAME OF THE YEAR",
       title: "Elden Ring",
       highlight: "Rise, Tarnished.",
@@ -40,6 +49,7 @@ export default function HomeSwiper() {
     },
     {
       image: img3,
+      mobileImg : imgMob3,
       badge: "FUTURE WARFARE",
       title: "Cyberpunk 2077",
       highlight: "Night City Awaits.",
@@ -50,6 +60,7 @@ export default function HomeSwiper() {
     },
     {
       image: img4,
+      mobileImg : imgMob4,
       badge: "OPEN WORLD",
       title: "GTA V",
       highlight: "Los Santos Life.",
@@ -60,6 +71,7 @@ export default function HomeSwiper() {
     },
     {
       image: img5,
+      mobileImg : imgMob5,
       badge: "FPS ACTION",
       title: "Call of Duty",
       highlight: "Modern Warfare",
@@ -70,6 +82,7 @@ export default function HomeSwiper() {
     },
     {
       image: img6,
+      mobileImg : imgMob6,
       badge: "BATTLE ROYALE",
       title: "Fortnite",
       highlight: "Victory Royale",
@@ -101,7 +114,7 @@ export default function HomeSwiper() {
     {/* Gradient background */}
     {/* <div className="absolute inset-0 bg-gradient-to-r from-[#0b1120] via-[#0b1120]/95 to-[#0b1120]/40 z-0" /> */}
 
-    <div className="relative z-10 mx-auto w-full max-w-7xl px-6 flex flex-col-reverse lg:flex-row items-center justify-between gap-12">
+    <div className="relative z-10 mx-auto w-full max-w-7xl px-6 flex flex-col-reverse lg:flex-row items-center justify-between gap-8 p-4">
 
       {/* TEXT SIDE */}
       <div className="w-full lg:w-1/2 space-y-6 text-center lg:text-left">
@@ -137,14 +150,22 @@ export default function HomeSwiper() {
         {/* <div className="absolute w-[280px] md:w-[420px] h-[280px] md:h-[420px] bg-cyan-500/20 blur-[120px] rounded-full" /> */}
 
         {/* Image container */}
-        <div className="relative w-[260px] sm:w-[340px] md:w-[420px] lg:w-[480px] aspect-[4/5]">
+        <div className="relative w-full md:w-[420px] lg:w-[480px] aspect-[4/5]">
           <Image
             src={slide.image}
             alt={slide.title}
             fill
-            className="md:translate-y-20 object-contain md:drop-shadow-[0_0_50px_rgba(56,189,248,0.45)] transition duration-500 hover:scale-[1.04]"
+            className="hidden md:block md:translate-y-20 object-contain md:drop-shadow-[0_0_50px_rgba(56,189,248,0.45)] transition duration-500 hover:scale-[1.04]"
             priority={i === 0}
             sizes="(max-width: 768px) 80vw, 480px"
+          />
+          <Image
+            src={slide.mobileImg}
+            alt={slide.title}
+            fill
+            className="block w-full md:hidden object-cover md:drop-shadow-[0_0_50px_rgba(56,189,248,0.45)] transition-all duration-300"
+            priority={i === 0}
+            
           />
         </div>
       </div>
