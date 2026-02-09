@@ -142,7 +142,7 @@ useEffect(() => {
   };
 
   return (
-    <div className="text-white p-6 md:p-12 space-y-16">
+    <div className="text-white p-4 space-y-16">
 
       {/* HERO */}
       <div className="relative rounded-3xl overflow-hidden">
@@ -274,7 +274,7 @@ useEffect(() => {
 
 {/* SIMILAR GAMES */}
 {similarGames.length > 0 && <Section title={`More Like ${game?.name}`}>
-  <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
     {similarGames.map(game => (
       <Link
         key={game.id}
@@ -345,7 +345,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   return (
     <div className="space-y-4">
       <h2 className="text-2xl font-bold text-blue-400">{title}</h2>
-      <div className="bg-[#0f172a] p-6 rounded-2xl border border-blue-900/40">{children}</div>
+      <div className="bg-[#0f172a] p-3 rounded-2xl border border-blue-900/40">{children}</div>
     </div>
   );
 }
